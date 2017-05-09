@@ -1,0 +1,211 @@
+{
+  "name": "Ontologizer",
+  "label": "Ontologizer 2.1",
+  "shortDescription": "Ontologizer (v2.1)",
+  "longDescription": "Analyze High-Throughput Biological Data Using Gene Ontology",
+  "helpURI": "http://ontologizer.de/",
+  "datePublished": "",
+  "author":"Alice Minotto",
+  "version": "0.0.0",
+  "deploymentSystem": "cyverseUK-Storage2",
+  "deploymentPath": "/mnt/data/apps/ontologizer",
+  "executionSystem": "cyverseUK-Batch2",
+  "executionType": "CLI",
+  "parallelism": "SERIAL",
+  "templatePath": "wrapper.sh",
+  "testPath": "test.sh",
+  "ontology": [ "http://edamontology.org/operation_1778",
+    "http://edamontology.org/operation_2509",
+    "http://edamontology.org/operation_3459",
+    "http://edamontology.org/operation_3672" ],
+  "tags": [ "CyverseUK" ],
+  "inputs": [
+    {"id": "association",
+    "value": {
+      "required": true,
+      "default": ""
+    },
+    "details": {
+      "label": "Association file (GAF)",
+      "showArgument": false,
+      "description": "File containing associations from genes to GO terms."
+    },
+    "semantics": {
+      "maxCardinality": 1
+    }},
+    {"id": "go",
+    "value": {
+      "required": true,
+      "default": ""
+      },
+    "details": { "label": "GO file",
+      "description": "File containing GO terminology and structure (.obo format)",
+      "showArgument": false
+    },
+    "semantics": {
+      "maxCardinality": 1
+      }},
+      {"id": "population",
+      "value": {
+        "required": true,
+        "default": ""
+        },
+      "details": { "label": "Population file",
+        "description": "file containing genes within the population.",
+        "showArgument": false
+      },
+      "semantics": {
+        "maxCardinality": 1
+        }},
+        {"id": "studyset",
+        "value": {
+          "required": true,
+          "default": ""
+          },
+        "details": { "label": "Study set",
+          "description": "File of a study set or directory containing study set files.",
+          "showArgument": false
+        }}
+    ],
+
+
+  "parameters": [
+    {"id": "calculation",
+    "value": {
+      "type": "enumeration",
+      "visible": true,
+      "enumValues": [
+        "MGSA",
+        "Parent-Child-Intersection",
+        "Parent-Child-Union",
+        "Term-For-Term",
+        "Topology-Elim",
+        "Topology-Weighted"
+      ],
+      "default": "Parent-Child-Union"
+      },
+    "details": {
+      "label": "Calculation method",
+      "description": "Default is Parent-Child-Union",
+      "showArgument": true,
+      "argument": "--calculation "
+      }},
+    {"id": "dot",
+      "value": {
+        "type": "string",
+        "visible": true
+      },
+      "details": {
+        "label": "Dot output as <[thrsh[,id]|id]>",
+        "description": "For every study set analysis write out an additional .dot file (GraphViz) containing the graph that is induced by interesting nodes. The optional argument thrsh must be in range between 0 and 1 and it specifies the threshold used to identify interesting nodes (defaults to 0.05). The GO term identifier id restricts the output to the subgraph originating at id.",
+        "showArgument": true,
+        "argument": "--dot "
+      }
+    },
+    {"id": "ignore",
+      "value": {
+        "type": "flag",
+        "visible": true
+      },
+      "details": {
+        "label": "Ignore genes with no association",
+        "showArgument": true,
+        "argument": "--ignore "
+      }
+    },
+    {"id": "mtc",
+      "value": {
+        "type": "enumeration",
+        "visible": true,
+        "enumValues": [
+          "Benjamini-Hochberg",
+          "Benjamini-Yekutieli",
+          "Bonferroni",
+          "Bonferroni-Holm",
+          "None" ],
+          "default": "None"
+      },
+      "details": {
+        "label": "MTC method",
+        "showArgument": true,
+        "argument": "--mtc "
+      }
+    },
+    {"id": "maxAlpha",
+      "value": {
+        "type": "string",
+        "visible": true
+      },
+      "details": {
+        "label": "Alpha upper bound",
+        "description": "Upper bound for alpha that is inferred in MSGA. Defaults to NaN.",
+        "showArgument": true,
+        "argument": "--maxAlpha "
+      }
+    },
+    {"id": "maxBeta",
+      "value": {
+        "type": "string",
+        "visible": true
+      },
+      "details": {
+        "label": "Beta upper bound",
+        "description": "Upper bound for beta that is inferred in MSGA. Defaults to NaN.",
+        "showArgument": true,
+        "argument": "--maxBeta "
+      }
+    },
+    {"id": "mcmcSteps",
+      "value": {
+        "type": "number",
+        "default": 500000,
+        "validator": "^[0-9]*$",
+        "visible": true
+      },
+      "details": {
+        "label": "MCMC steps",
+        "description": "Number of sample steps for MCMC based approaches like MGSA. Defaults to 500000.",
+        "showArgument": true,
+        "argument": "--mcmcSteps "
+      }
+    },
+    {"id": "annotation",
+      "value": {
+        "type": "flag",
+        "visible": true
+      },
+      "details": {
+        "label": "Create an annotation file",
+        "description": "Create an additional annotation file per study set which contains the annotations.",
+        "showArgument": true,
+        "argument": "--annotation "
+      }
+    },
+    {"id": "resamplingsteps",
+      "value": {
+        "type": "string",
+        "validator": "^[0-9]*$",
+        "visible": true
+      },
+      "details": {
+        "label": "Resampling steps",
+        "description": "Specifies the number of steps used in resampling based MTCs.",
+        "showArgument": true,
+        "argument": "--resamplingsteps "
+      }
+    },
+    {"id": "sizetolerance",
+      "value": {
+        "type": "string",
+        "visible": true,
+        "validator": "^[0-9]{1,2}$"
+      },
+      "details": {
+        "label": "Size tolerance",
+        "description": "Specifies the percentage at which the actual study set size and the size of the resampled study sets are allowed to differ.",
+        "showArgument": true,
+        "argument": "--sizetolerance "
+      }
+    }
+]
+}
