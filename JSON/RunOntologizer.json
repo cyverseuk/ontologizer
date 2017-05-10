@@ -1,0 +1,14 @@
+{
+  "name" : "Ontologizer",
+  "appId" : "Ontologizer-0.0.0",
+  "archive" : false,
+  "inputs": {
+    "association" :  "http://de.cyverse.org/dl/d/A8BCB0A0-5306-4FAC-BF96-40957B737E46/goa_yeast.gaf",
+    "go" : "http://de.cyverse.org/dl/d/1E576EF6-A02E-43D4-8776-31C2FFC54242/go-basic.obo",
+    "population": "http://de.cyverse.org/dl/d/D19D4468-DAA2-4627-9899-FA6A5EB7A295/population.txt",
+    "studyset" : "agave://cyverseUK-Storage2/rosysnake/studyset"
+  },
+  "parameters" : {
+    "dot": "0.1"
+  }
+}
